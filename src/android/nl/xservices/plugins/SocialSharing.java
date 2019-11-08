@@ -583,22 +583,23 @@ public class SocialSharing extends CordovaPlugin {
       }
     }
     final String shareMessage = message;
+    shareMessages.replace("w4b", "");
     final SocialSharing plugin = this;
     cordova.getThreadPool().execute(new SocialSharingRunnable(callbackContext) {
       public void run() {
         final Intent intent = new Intent(Intent.ACTION_VIEW);
         try {
           if(url.equals("w4b")) {
-          Context context = cordova.getActivity().getApplicationContext();
-          Uri uri = Uri.parse("smsto:" + number);
-          Intent intent2 = new Intent(Intent.ACTION_SEND, uri);
-          intent2.setType("text/plain");
-          intent2.putExtra("jid", number + "@s.whatsapp.net");
-          intent2.setPackage("com.whatsapp.w4b");
-          intent2.putExtra(Intent.EXTRA_TEXT, shareMessage);
-          Intent new_intent = Intent.createChooser(intent2, shareMessage);
-          new_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          context.startActivity(new_intent);
+            Context context = cordova.getActivity().getApplicationContext();
+            Uri uri = Uri.parse("smsto:" + number);
+            Intent intent2 = new Intent(Intent.ACTION_SEND, uri);
+            intent2.setType("text/plain");
+            intent2.putExtra("jid", number + "@s.whatsapp.net");
+            intent2.setPackage("com.whatsapp.w4b");
+            intent2.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            Intent new_intent = Intent.createChooser(intent2, shareMessage);
+            new_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(new_intent);
           } else {
             intent.setData(Uri.parse("https://api.whatsapp.com/send?phone=" + number + "&text=" + URLEncoder.encode(shareMessage, "UTF-8")));
             // this was added to start the intent in a new window as suggested in #300 to prevent crashes upon return
