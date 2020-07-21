@@ -582,9 +582,12 @@ public class SocialSharing extends CordovaPlugin {
         message = url;
       }
     }
+    
+    message.replace("w4b", "");
+    
     final String shareMessage = message;
-    shareMessages.replace("w4b", "");
     final SocialSharing plugin = this;
+    
     cordova.getThreadPool().execute(new SocialSharingRunnable(callbackContext) {
       public void run() {
         final Intent intent = new Intent(Intent.ACTION_VIEW);
